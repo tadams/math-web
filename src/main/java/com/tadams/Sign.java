@@ -1,10 +1,11 @@
 package com.tadams;
 
 public enum Sign {
+
 	POS,NEG;
 	
 	public Sign apply(Operation oper) {
-		if (oper == Operation.SUBSTRACT) {
+		if (oper == Operation.SUBTRACT) {
 			return opposite();
 		}
 		return this;

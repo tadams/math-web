@@ -5,11 +5,17 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestProblem {
+public class FractionProblemTest {
+
+    @Test
+    public void shouldDetermineTypeOfOperation() {
+        FractionProblem problem = new FractionProblem("1/2 * 1/3");
+        assertEquals(problem.operation, Operation.MULTIPLY);
+    }
 	
 	@Test
 	public void addFraction() {
-		Problem prob = new Problem("2 1/2 + 1/2");
+		FractionProblem prob = new FractionProblem("2 1/2 + 1/2");
 		System.out.println(prob.getSteps());
 		assertEquals("3",prob.getAnswer().toString());
 	}
@@ -17,7 +23,7 @@ public class TestProblem {
 	@Test
     @Ignore
 	public void addLcdFraction() {
-		Problem prob = new Problem("3 1/14 + 1 2/7");
+		FractionProblem prob = new FractionProblem("3 1/14 + 1 2/7");
 		assertEquals("4 5/14",prob.getAnswer().toString());
 		System.out.println(prob.getSteps());
 	}
@@ -25,7 +31,7 @@ public class TestProblem {
 	@Test
     @Ignore
 	public void muti_neg() {
-		Problem prob = new Problem("9/14 * -7/9");
+		FractionProblem prob = new FractionProblem("9/14 * -7/9");
 		assertEquals("-1/2",prob.getAnswer().toString());
 		assertEquals(Fraction.valueOf("-1/2"),prob.getAnswer());
 		System.out.println(prob.getSteps());
@@ -62,9 +68,9 @@ public class TestProblem {
 	}
 	
 	private void doTest(String prob, String answer) {
-		Problem problem = new Problem(prob);
-		System.out.println(problem.getSteps());
-		assertEquals(Fraction.valueOf(answer),problem.getAnswer());
+		FractionProblem fractionProblem = new FractionProblem(prob);
+		System.out.println(fractionProblem.getSteps());
+		assertEquals(Fraction.valueOf(answer), fractionProblem.getAnswer());
 	}
 
 }

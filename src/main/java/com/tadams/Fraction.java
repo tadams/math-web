@@ -1,53 +1,55 @@
 package com.tadams;
 
+import com.tadams.util.MathUtil;
+
 public class Fraction {
 	
-	private int		intNum;
+	private int     integer;
 	private int		numerator;
 	private int 	denominator;
 	
 	public static Fraction valueOf(String str) {
 		String[] parts = str.trim().split(" |/");
-		int intNum 			= 0;
+		int integer			= 0;
 		int numerator 		= 0;
 		int denominator 	= 1;
 		
 		switch (parts.length) {
 			case 1 : 
-				intNum = Integer.parseInt(parts[0]);
+				integer = Integer.parseInt(parts[0]);
 				break;
 			case 2 :
 				numerator = Integer.parseInt(parts[0]);
 				denominator = Integer.parseInt(parts[1]);
 				break;
 			case 3:
-				intNum = Integer.parseInt(parts[0]);
+				integer = Integer.parseInt(parts[0]);
 				numerator = Integer.parseInt(parts[1]);
 				denominator = Integer.parseInt(parts[2]);
 				break;
 			default:
 				throw new IllegalArgumentException();
 		}
-		return new Fraction(intNum,
+		return new Fraction(integer,
 							numerator,
 							denominator);
 	}
 	
 	public Fraction(Fraction f) {
-		this(f.getIntNum(), f.getNumerator(), f.getDenominator());
+		this(f.getInteger(), f.getNumerator(), f.getDenominator());
 	}
 	
 	public Fraction(int numerator, int denominator) {
 		this(0, numerator, denominator);
 	}
 	
-	public Fraction(int intNum, int numerator, int denominator) {
+	public Fraction(int integer, int numerator, int denominator) {
 		
 		if (denominator == 0) {
 			throw new IllegalArgumentException("denominator cannot = 0");
 		}
 		
-		this.intNum			= intNum;
+		this.integer        = integer;
 		this.numerator 		= numerator;
 		this.denominator 	= denominator;
 	}
@@ -74,12 +76,12 @@ public class Fraction {
 	}
 	
 	public boolean improperFraction() {
-		if (intNum != 0) {
-			numerator = (Math.abs(intNum) * denominator) + numerator;
-			if (intNum < 0) {
+		if (integer != 0) {
+			numerator = (Math.abs(integer) * denominator) + numerator;
+			if (integer < 0) {
 				numerator = numerator * -1;
 			}
-			intNum = 0;
+			integer = 0;
 			return true;
 		}
 		return false;
@@ -96,7 +98,7 @@ public class Fraction {
 	public boolean reduce() {
 		boolean reduced = false;
 		if (Math.abs(numerator) >= denominator) {
-			intNum = intNum + numerator / denominator;
+			integer = integer + numerator / denominator;
 			numerator = Math.abs(numerator % denominator);
 			reduced = true;
 		}
@@ -119,8 +121,8 @@ public class Fraction {
 		return denominator;
 	}
 	
-	public int getIntNum() {
-		return intNum;
+	public int getInteger() {
+		return integer;
 	}
 	
 	public Fraction add(Fraction other) {
@@ -134,14 +136,14 @@ public class Fraction {
 			borrow();
 		}
 		
-		return new Fraction(intNum + other.getIntNum(),
+		return new Fraction(integer + other.getInteger(),
 				getSignNumerator() + other.getSignNumerator(), 
     			denominator);
 	}
 	
 	public void borrow() {
-		if (intNum > 0) {
-			intNum--;
+		if (integer > 0) {
+			integer--;
 			numerator = numerator + denominator;
 		}
 	}
@@ -158,14 +160,14 @@ public class Fraction {
 	
 	public Sign getSign() {
 		
-		if (intNum == 0) {
+		if (integer == 0) {
 			return numerator < 0 ? Sign.NEG : Sign.POS;
 		}
-		return intNum < 0 ? Sign.NEG : Sign.POS;
+		return integer < 0 ? Sign.NEG : Sign.POS;
 	}
 	
 	public int getSignNumerator() {
-		if (intNum < 0) {
+		if (integer < 0) {
 			return numerator * -1;
 		}
 		return numerator;
@@ -173,8 +175,8 @@ public class Fraction {
 	
 	public Fraction subtract(Fraction other) {
 		
-		if (other.intNum > 0) {
-			other.intNum = other.intNum * -1;
+		if (other.integer > 0) {
+			other.integer = other.integer * -1;
 		} else {
 			other.numerator = other.numerator * -1;
 		}
@@ -201,7 +203,7 @@ public class Fraction {
 		if (other instanceof Fraction) {
 			Fraction oFrac = (Fraction)other;
 			
-			if (intNum != oFrac.getIntNum()) {
+			if (integer != oFrac.getInteger()) {
 				return false;
 			}
 			
@@ -218,16 +220,16 @@ public class Fraction {
 	public String toString() {
 		
 		if (numerator == 0) {
-			return MathUtil.format(intNum);
+			return MathUtil.format(integer);
 		}
 		
 		String frac = "<sup>" + MathUtil.format(numerator)   + "</sup>" +
 		  "&frasl;" + "<sub>" + MathUtil.format(denominator) + "</sub>";
 		
-		if (intNum == 0) {
+		if (integer == 0) {
 			return frac;
 		} else {
-			return MathUtil.format(intNum) + " " + frac;
+			return MathUtil.format(integer) + " " + frac;
 		}
 	}
 	
@@ -237,10 +239,10 @@ public class Fraction {
 					  "&frasl;" +
 					  formatDiff("sub", denominator, other.getDenominator());
 		
-		if (intNum == 0) {
+		if (integer == 0) {
 			return frac;
 		} else {
-			return MathUtil.format(intNum) + " " + frac;
+			return MathUtil.format(integer) + " " + frac;
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package com.tadams;
+package com.tadams.util;
 
 public class MathUtil {
 	

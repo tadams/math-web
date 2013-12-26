@@ -26,7 +26,7 @@ public enum StepDesc {
     public static StepDesc getDesc(Operation oper) {
     	switch (oper) {
     		case ADD : return ADD_FRAC;
-    		case SUBSTRACT : return SUB_FRAC;
+    		case SUBTRACT: return SUB_FRAC;
     		case MULTIPLY : return MULTI_FRAC;
     	}
     	throw new AssertionError();

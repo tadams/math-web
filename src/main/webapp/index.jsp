@@ -2,7 +2,7 @@
     %>
     
 <%@ page import="java.util.List" %>  
-<%@ page import="com.tom.Problem" %>
+<%@ page import="com.tadams.FractionProblem" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,7 +49,7 @@ the mixed numbers.  Supported operations include addition (+), subtraction (-),
 multiplication (*) and division (/).
 </div>
 <%
-Problem problem = (Problem)request.getAttribute("problem");
+FractionProblem problem = (FractionProblem)request.getAttribute("problem");
 if (problem == null) {
 	if (mathProb != null) {
 %>
