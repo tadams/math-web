@@ -1,0 +1,5 @@
+.gradle
+.idea
+math-web.iml
+build/
+out/
