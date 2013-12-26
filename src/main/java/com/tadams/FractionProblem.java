@@ -26,7 +26,7 @@ public class FractionProblem {
 		
 		if (isMultiplyOrDivideOperation()) {
 		
-			if (isAnyImproperFractions()) {
+			if (isAnyMixedFractions()) {
 				addStep(StepDesc.CONVT_MIX_FRAC, fraction1, fraction2);
 			}
 			
@@ -44,16 +44,16 @@ public class FractionProblem {
 			
 		} else {
 		
-			int lcd = MathUtil.leastComMulti(fraction1.getDenominator(), fraction2.getDenominator());
-			if (fraction1.applyLeastComDenom(lcd) | fraction2.applyLeastComDenom(lcd)) {
+			int lcd = MathUtil.calcLeastCommonMultiplier(fraction1.getDenominator(), fraction2.getDenominator());
+			if (fraction1.applyLeastCommonDenominator(lcd) | fraction2.applyLeastCommonDenominator(lcd)) {
 				addStep(StepDesc.COMP_COMM_DENOM, fraction1, fraction2);
 			}
 			
 		}
 		
-		int f1IntNum = fraction1.getInteger();
+		int f1IntNum = fraction1.getWholeNumber();
 		answer = doOperation(fraction1, fraction2, operation);
-		if (fraction1.getInteger() != f1IntNum) {
+		if (fraction1.getWholeNumber() != f1IntNum) {
 			addStep(StepDesc.BORROW, fraction1, fraction2);
 		}
 		
@@ -65,8 +65,8 @@ public class FractionProblem {
 		}
 	}
 
-    private boolean isAnyImproperFractions() {
-        return fraction1.improperFraction() | fraction2.improperFraction();
+    private boolean isAnyMixedFractions() {
+        return fraction1.simplifyMixedFraction() | fraction2.simplifyMixedFraction();
     }
 
     private boolean isMultiplyOrDivideOperation() {
@@ -92,13 +92,13 @@ public class FractionProblem {
 	private boolean simplify(Fraction f1, Fraction f2) {
 		
 		boolean factorApplied = false;
-		int factor = MathUtil.calcGCF(f1.getNumerator(), f2.getDenominator());
+		int factor = MathUtil.calcGreatestCommonFactor(f1.getNumerator(), f2.getDenominator());
 		if (factor != 1) {
 			f1.applyFactorNumerator(factor);
 			f2.applyFactorDenominator(factor);
 			factorApplied = true;
 		}
-		factor = MathUtil.calcGCF(f2.getNumerator(), f1.getDenominator());
+		factor = MathUtil.calcGreatestCommonFactor(f2.getNumerator(), f1.getDenominator());
 		if (factor != 1) {
 			f2.applyFactorNumerator(factor);
 			f1.applyFactorDenominator(factor);

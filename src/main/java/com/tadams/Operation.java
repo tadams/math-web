@@ -1,11 +1,12 @@
 package com.tadams;
 
-import com.tadams.util.Utils;
-
 import static com.tadams.util.Utils.firstNonNull;
 
 public enum Operation {
-	ADD("+ ",true), SUBTRACT("- ",false), MULTIPLY("* ",true), DIVIDE("/ ",false);
+	ADD("+ ",true),
+    SUBTRACT("- ",false),
+    MULTIPLY("* ",true),
+    DIVIDE("/ ",false);
 	
 	private String		symbol;
 	private String		regExp;
