@@ -218,48 +218,6 @@ public class Fraction {
 		return false;
 	}
 
-	public String toString() {
-
-		if (numerator == 0) {
-			return MathUtil.format(wholeNumber);
-		}
-
-		String frac = "<sup>" + MathUtil.format(numerator)   + "</sup>" +
-		  "&frasl;" + "<sub>" + MathUtil.format(denominator) + "</sub>";
-
-		if (wholeNumber == 0) {
-			return frac;
-		} else {
-			return MathUtil.format(wholeNumber) + " " + frac;
-		}
-	}
-
-	public String toString(Fraction other) {
-
-		String frac = formatDiff("sup", numerator, other.getNumerator()) +
-					  "&frasl;" +
-					  formatDiff("sub", denominator, other.getDenominator());
-
-		if (wholeNumber == 0) {
-			return frac;
-		} else {
-			return MathUtil.format(wholeNumber) + " " + frac;
-		}
-	}
-
-	private String formatDiff(String tag, int i1, int i2) {
-		if (i1 == i2) {
-			return String.format("<%s>%s</%s>", tag, MathUtil.format(i1), tag);
-		}
-		if (tag.equals("sup")) {
-			return String.format("<%s>%s <del><font color=red>%s</font></del></%s>",
-					tag, MathUtil.format(i1), MathUtil.format(i2), tag);
-		} else {
-			return String.format("<%s><del><font color=red>%s</font></del> %s</%s>",
-					tag, MathUtil.format(i2), MathUtil.format(i1), tag);
-		}
-	}
-
     public int getNumerator() {
         return numerator;
     }

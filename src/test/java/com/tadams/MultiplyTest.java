@@ -1,10 +1,10 @@
 package com.tadams;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class TestMultiply {
+import static org.junit.Assert.assertEquals;
+
+public class MultiplyTest {
 	
 	@Test
 	public void simple() {

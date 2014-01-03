@@ -5,6 +5,9 @@ import com.tadams.util.MathUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tadams.util.HtmlFractionFormatter.format;
+import static com.tadams.util.MathUtil.calcLeastCommonMultiplier;
+
 public class FractionProblem {
 	
 	private List<String>	steps		= new ArrayList<>();
@@ -15,62 +18,84 @@ public class FractionProblem {
 	Fraction		answer;
 	
 	public FractionProblem(String equation) {
-		
-		operation = determineOperation(equation);
-		String[] equParts = equation.split(operation.getRegExp());
-		
-		fraction1 = Fraction.valueOf(equParts[0]);
-		fraction2 = Fraction.valueOf(equParts[1]);
-		
-		addStep(StepDesc.EQUATION, fraction1, fraction2);
-		
-		if (isMultiplyOrDivideOperation()) {
-		
-			if (isAnyMixedFractions()) {
-				addStep(StepDesc.CONVT_MIX_FRAC, fraction1, fraction2);
-			}
-			
-			Fraction f3 = new Fraction(fraction1);
-			Fraction f4 = new Fraction(fraction2);
-			if (simplify(fraction1, fraction2)) {
-				addStep(StepDesc.SIMPLIFY, fraction1.toString(f3), fraction2.toString(f4));
-			}
-			
-			if (operation == Operation.DIVIDE) {
-				fraction2 = fraction2.reciprocal();
-				operation = Operation.MULTIPLY;
-				addStep(StepDesc.RECIP, fraction1, fraction2);
-			}
-			
-		} else {
-		
-			int lcd = MathUtil.calcLeastCommonMultiplier(fraction1.getDenominator(), fraction2.getDenominator());
-			if (fraction1.applyLeastCommonDenominator(lcd) | fraction2.applyLeastCommonDenominator(lcd)) {
-				addStep(StepDesc.COMP_COMM_DENOM, fraction1, fraction2);
-			}
-			
-		}
-		
-		int f1IntNum = fraction1.getWholeNumber();
-		answer = doOperation(fraction1, fraction2, operation);
-		if (fraction1.getWholeNumber() != f1IntNum) {
-			addStep(StepDesc.BORROW, fraction1, fraction2);
-		}
-		
-		
-		addStep(StepDesc.getDesc(operation), answer.toString());
-		
-		if (answer.reduce()) {
-			addStep(StepDesc.REDUCE, answer.toString());
-		}
-	}
 
-    private boolean isAnyMixedFractions() {
-        return fraction1.simplifyMixedFraction() | fraction2.simplifyMixedFraction();
+        parseEquation(equation);
+		addStep(StepDesc.EQUATION, format(fraction1), format(fraction2));
+		
+		if (operation.isMultiplyOrDivideOperation()) {
+
+            doMultiplyDividePreSteps();
+
+		} else {
+
+            doAddSubtractPreSteps();
+		}
+
+        calculateAnswer();
+        reduceAnswer();
     }
 
-    private boolean isMultiplyOrDivideOperation() {
-        return operation == Operation.MULTIPLY || operation == Operation.DIVIDE;
+    private void parseEquation(String equation) {
+
+        operation = determineOperation(equation);
+        String[] equationParts = equation.split(operation.getRegExp());
+
+        fraction1 = Fraction.valueOf(equationParts[0]);
+        fraction2 = Fraction.valueOf(equationParts[1]);
+    }
+
+    private void doMultiplyDividePreSteps() {
+        convertToImproperFractions();
+
+        doDividePreSteps();
+
+        simplifyFractions(fraction1, fraction2);
+    }
+
+    private void doAddSubtractPreSteps() {
+        int lcd = calcLeastCommonMultiplier(fraction1.getDenominator(), fraction2.getDenominator());
+
+        boolean f1LcdApplied = fraction1.applyLeastCommonDenominator(lcd);
+        boolean f2LcdApplied = fraction2.applyLeastCommonDenominator(lcd);
+
+        if (f1LcdApplied || f2LcdApplied) {
+            addStep(StepDesc.COMP_COMM_DENOM, format(fraction1), format(fraction2));
+        }
+    }
+
+    private void calculateAnswer() {
+        int f1WholeNumber = fraction1.getWholeNumber();
+
+        answer = doOperation(fraction1, fraction2, operation);
+
+        if (fraction1.getWholeNumber() != f1WholeNumber) {
+            addStep(StepDesc.BORROW, format(fraction1), format(fraction2));
+        }
+
+        addStep(StepDesc.getDesc(operation), format(answer));
+    }
+
+    private void reduceAnswer() {
+        if (answer.reduce()) {
+            addStep(StepDesc.REDUCE, format(answer));
+        }
+    }
+
+    private void doDividePreSteps() {
+        if (operation == Operation.DIVIDE) {
+            fraction2 = fraction2.reciprocal();
+            operation = Operation.MULTIPLY;
+            addStep(StepDesc.RECIP, format(fraction1), format(fraction2));
+        }
+    }
+
+    private void convertToImproperFractions() {
+        boolean f1Converted = fraction1.simplifyMixedFraction();
+        boolean f2Converted = fraction2.simplifyMixedFraction();
+
+        if (f1Converted || f2Converted) {
+            addStep(StepDesc.CONVT_MIX_FRAC, format(fraction1), format(fraction2));
+        }
     }
 
     public Fraction getAnswer() {
@@ -89,7 +114,10 @@ public class FractionProblem {
 		}
 	}
 	
-	private boolean simplify(Fraction f1, Fraction f2) {
+	private void simplifyFractions(Fraction f1, Fraction f2) {
+
+        Fraction origFraction1 = new Fraction(fraction1);
+        Fraction origFraction2 = new Fraction(fraction2);
 		
 		boolean factorApplied = false;
 		int factor = MathUtil.calcGreatestCommonFactor(f1.getNumerator(), f2.getDenominator());
@@ -104,17 +132,21 @@ public class FractionProblem {
 			f1.applyFactorDenominator(factor);
 			factorApplied = true;
 		}
-		
-		return factorApplied;
+
+        if (factorApplied) {
+            addStep(StepDesc.SIMPLIFY, format(fraction1, origFraction1), format(fraction2, origFraction2));
+        }
 	}
 	
 	private void addStep(StepDesc desc, String s2) {
 		steps.add(desc.getDesc() + s2);
 	}
 	
-	private void addStep(StepDesc desc, Object f1, Object f2) {
+	private void addStep(StepDesc desc, String f1, String f2) {
 		steps.add(desc.getDesc() + 
-			f1.toString() + " " + operation.getSymbol() + " " + f2.toString());
+			      f1 + " " +
+                  operation.getSymbol() + " " +
+                  f2);
 	}
 	
 	public List<String> getSteps() {

@@ -1,10 +1,10 @@
 package com.tadams;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class TestSubtractFraction {
+import static org.junit.Assert.assertEquals;
+
+public class SubtractFractionTest {
 	
 	@Test
 	public void pos() {

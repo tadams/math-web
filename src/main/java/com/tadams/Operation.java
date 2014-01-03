@@ -25,4 +25,8 @@ public enum Operation {
 	public String getSymbol() {
 		return symbol;
 	}
+
+    public boolean isMultiplyOrDivideOperation() {
+        return this == Operation.MULTIPLY || this == Operation.DIVIDE;
+    }
 }

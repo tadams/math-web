@@ -1,9 +1,8 @@
 package com.tadams;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class FractionProblemTest {
 
@@ -15,26 +14,17 @@ public class FractionProblemTest {
 	
 	@Test
 	public void addFraction() {
-		FractionProblem prob = new FractionProblem("2 1/2 + 1/2");
-		System.out.println(prob.getSteps());
-		assertEquals("3",prob.getAnswer().toString());
+		doTest("2 1/2 + 1/2", "3");
 	}
 	
 	@Test
-    @Ignore
 	public void addLcdFraction() {
-		FractionProblem prob = new FractionProblem("3 1/14 + 1 2/7");
-		assertEquals("4 5/14",prob.getAnswer().toString());
-		System.out.println(prob.getSteps());
+		doTest("3 1/14 + 1 2/7", "4 5/14");
 	}
 	
 	@Test
-    @Ignore
 	public void muti_neg() {
-		FractionProblem prob = new FractionProblem("9/14 * -7/9");
-		assertEquals("-1/2",prob.getAnswer().toString());
-		assertEquals(Fraction.valueOf("-1/2"),prob.getAnswer());
-		System.out.println(prob.getSteps());
+		doTest("9/14 * -7/9", "-1/2");
 	}
 	
 	@Test
@@ -54,7 +44,6 @@ public class FractionProblemTest {
 	}
 	
 	@Test
-    @Ignore
 	public void divide() {
 		doTest("2 4/8 / 1 2/3","1 1/2");
 		doTest("2 / 1/2","4");

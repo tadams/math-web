@@ -1,11 +1,11 @@
 package com.tadams;
 
-import static org.junit.Assert.assertEquals;
-
 import com.tadams.util.MathUtil;
 import org.junit.Test;
 
-public class TestMathUtil {
+import static org.junit.Assert.assertEquals;
+
+public class MathUtilTest {
 	
 	@Test
 	public void testLCM() {
