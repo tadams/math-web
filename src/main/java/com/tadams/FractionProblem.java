@@ -134,7 +134,8 @@ public class FractionProblem {
 		}
 
         if (factorApplied) {
-            addStep(StepDesc.SIMPLIFY, format(fraction1, origFraction1), format(fraction2, origFraction2));
+            addStep(StepDesc.SIMPLIFY, format(fraction1, origFraction1),
+                                       format(origFraction2, fraction2));
         }
 	}
 	

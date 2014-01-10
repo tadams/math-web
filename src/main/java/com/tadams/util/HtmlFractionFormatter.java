@@ -23,10 +23,10 @@ public class HtmlFractionFormatter {
         }
 
         String numerator = format(f1.getNumerator(), f2.getNumerator(),
-                                   EQUAL_NUMERATOR_FORMAT, DIFF_NUMERATOR_FORMAT);
+                EQUAL_NUMERATOR_FORMAT, DIFF_NUMERATOR_FORMAT);
 
         String denominator = format(f1.getDenominator(), f2.getDenominator(),
-                                    EQUAL_DENOMINATOR_FORMAT, DIFF_DENOMINATOR_FORMAT);
+                EQUAL_DENOMINATOR_FORMAT, DIFF_DENOMINATOR_FORMAT);
 
         String wholeNumber = isZero(f1.getWholeNumber()) ? "" : " " + format(f1.getWholeNumber());
 

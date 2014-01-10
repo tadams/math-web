@@ -13,7 +13,7 @@ public class AddFractionTest {
 		Fraction f2 = new Fraction(1,2);
 		Fraction answer = f1.add(f2);
 		answer.reduce();
-		assertEquals("1", answer.toString());
+		assertEquals(new Fraction(1,0,1), answer);
 	}
 	
 	@Test
@@ -22,7 +22,7 @@ public class AddFractionTest {
 		Fraction f2 = new Fraction(1,2);
 		Fraction fa = f1.add(f2);
 		
-		assertEquals("0", fa.toString());
+		assertEquals(new Fraction(0,0,1), fa);
 	}
 	
 	@Test
